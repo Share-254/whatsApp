@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VIP WhatsApp Community</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, -apple-system, sans-serif; }
+    body { background: #f8fafc; color: #0f172a; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 20px 0; }
+
+    /* DESKTOP BLOCKER OVERLAY */
+    #desktopWarningOverlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #0f172a;
+      z-index: 99999999;
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+      text-align: center;
+      color: #ffffff;
+    }
+    .desktop-warning-box {
+      background: #1e293b;
+      border: 1px solid #334155;
+      max-width: 420px;
+      width: 100%;
+      padding: 32px 24px;
+      border-radius: 20px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+    .desktop-warning-icon {
+      width: 64px;
+      height: 64px;
+      background: rgba(220, 38, 38, 0.15);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+    .desktop-warning-icon svg {
+      width: 32px;
+      height: 32px;
+      stroke: #ef4444;
+      stroke-width: 2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .desktop-warning-box h2 {
+      font-size: 20px;
+      font-weight: 900;
+      color: #f8fafc;
+      letter-spacing: -0.3px;
+    }
+    .desktop-warning-box p {
+      font-size: 14px;
+      color: #94a3b8;
+      line-height: 1.5;
+    }
+    .device-badge-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 4px;
+    }
+    .device-badge {
+      background: rgba(239, 68, 68, 0.1);
+      color: #fca5a5;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(239, 68, 68, 0.2);
+    }
+
+    /* MAIN CONTAINER */
+    .app-container {
+      width: 100%;
+      max-width: 480px;
+      padding: 0 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* MASTER CARD WRAPPER */
+    .master-card {
+      background: #ffffff;
+      border-radius: 20px;
+      border: 1px solid #e2e8f0;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* GREEN VIP HEADER SECTION */
+    .vip-header {
+      background: #009661;
+      color: #ffffff;
+      padding: 24px 20px 28px 20px;
+      text-align: center;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* LOGIN / ACCOUNT DROPDOWN IN HEADER */
+    .header-top-nav {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 12px;
+    }
+
+    .login-header-btn {
+      background: rgba(0, 0, 0, 0.2);
+      color: #ffffff;
+      border: none;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.2s;
+    }
+    .login-header-btn:hover { background: rgba(0, 0, 0, 0.3); }
+
+    .user-dropdown { position: relative; display: inline-block; }
+    .dropdown-content { display: none; position: absolute; right: 0; top: 35px; background-color: #ffffff; border: 1px solid #cbd5e1; min-width: 130px; box-shadow: 0px 8px 16px rgba(0,0,0,0.15); border-radius: 8px; z-index: 10; text-align: left; overflow: hidden; }
+    .dropdown-content a { color: #0f172a; padding: 10px 14px; text-decoration: none; display: block; font-size: 13px; font-weight: bold; }
+    .dropdown-content a:hover { background-color: #fee2e2; color: #dc2626; }
+
+    /* WHATSAPP BADGE ICON */
+    .wa-circle-icon {
+      width: 64px;
+      height: 64px;
+      background: #ffffff;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .wa-circle-icon svg {
+      width: 38px;
+      height: 38px;
+      fill: #25D366;
+    }
+
+    .vip-header h1 {
+      font-size: 22px;
+      font-weight: 900;
+      margin-bottom: 6px;
+      letter-spacing: -0.3px;
+    }
+    .vip-header p {
+      font-size: 14px;
+      opacity: 0.95;
+      font-weight: 600;
+    }
+
+    /* CARD BODY INNER CONTENT */
+    .card-body-content {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* LIGHT GREEN ACCOUNT BALANCE BOX */
+    .balance-card-box {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 16px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .balance-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .balance-col-left span.label {
+      font-size: 11px;
+      color: #475569;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: block;
+    }
+    .balance-col-left h2 {
+      font-size: 26px;
+      color: #008753;
+      font-weight: 900;
+      margin-top: 2px;
+    }
+
+    .balance-col-right {
+      text-align: right;
+    }
+    .balance-col-right span.label {
+      font-size: 11px;
+      color: #64748b;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: block;
+    }
+    .balance-col-right h3 {
+      font-size: 18px;
+      color: #0f172a;
+      font-weight: 900;
+      margin-top: 2px;
+    }
+
+    .balance-divider {
+      height: 1px;
+      background: #dcfce7;
+      width: 100%;
+    }
+
+    .commission-info-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      color: #334155;
+    }
+    .commission-left {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .commission-val {
+      font-weight: 800;
+      color: #0f172a;
+    }
+
+    .commission-subtext {
+      font-size: 12px;
+      color: #475569;
+      line-height: 1.4;
+      display: flex;
+      gap: 6px;
+      align-items: flex-start;
+    }
+    .commission-subtext svg {
+      width: 16px;
+      height: 16px;
+      fill: #16a34a;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ALWAYS VISIBLE UNLOCKED SHARE & COPY CARD */
+    .share-box-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 16px;
+      text-align: left;
+    }
+    .share-box-card label {
+      font-size: 12px;
+      color: #15803d;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: block;
+      margin-bottom: 8px;
+    }
+    .share-box-card textarea { width: 100%; height: 75px; background: #f8fafc; border: 1px solid #cbd5e1; color: #0f172a; border-radius: 8px; padding: 8px 10px; font-size: 12px; resize: none; font-family: inherit; margin-bottom: 8px; outline: none; }
+    .share-actions { display: flex; gap: 8px; }
+    
+    .icon-btn-transparent {
+      flex: 1;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: transparent;
+      border: 1px solid #bbf7d0;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 800;
+      color: #15803d;
+      transition: background 0.2s ease;
+    }
+    .icon-btn-transparent:hover { background: #f0fdf4; }
+    .icon-btn-transparent svg {
+      width: 18px;
+      height: 18px;
+      fill: none;
+      stroke: #15803d;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* MAIN CTA BUTTON */
+    .btn-main-green {
+      background: #009661;
+      color: #ffffff;
+      border: none;
+      padding: 16px 20px;
+      font-size: 16px;
+      font-weight: 900;
+      border-radius: 12px;
+      cursor: pointer;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 4px 15px rgba(0, 150, 97, 0.25);
+      transition: background 0.2s;
+    }
+    .btn-main-green:hover { background: #008052; }
+    .btn-main-green svg { width: 24px; height: 24px; fill: #ffffff; }
+
+    /* BUTTONS */
+    .btn { background: #009661; color: #ffffff; border: none; padding: 14px; font-size: 14px; font-weight: 800; border-radius: 10px; cursor: pointer; width: 100%; text-transform: uppercase; transition: 0.2s; }
+    .btn:hover { background: #008052; }
+
+    /* NETWORK INVITES LIST */
+    .invite-section { text-align: left; }
+    .invite-section h4 { font-size: 12px; color: #64748b; margin-bottom: 10px; text-transform: uppercase; font-weight: 800; letter-spacing: 0.5px; display: flex; justify-content: space-between; align-items: center; }
+    ul.invite-list { list-style: none; max-height: 200px; overflow-y: auto; }
+    ul.invite-list li { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #f1f5f9; font-size: 13px; font-weight: 600; }
+    .badge { padding: 4px 8px; border-radius: 10px; font-size: 11px; font-weight: bold; }
+    .paid { background: #dcfce7; color: #15803d; }
+    .pending { background: #fef3c7; color: #b45309; }
+
+    /* CARD COMPONENT */
+    .card {
+      background: #ffffff;
+      border-radius: 16px;
+      border: 1px solid #e2e8f0;
+      padding: 16px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+    }
+
+    /* CUSTOM NOTIFICATION BANNER */
+    #customNotification { 
+      position: fixed; 
+      top: 0; 
+      left: 50%;
+      width: calc(100% - 40px);
+      max-width: 380px; 
+      margin-top: 14px;
+      background: #009661; 
+      color: #ffffff; 
+      font-size: 13px; 
+      font-weight: 800; 
+      padding: 11px 16px; 
+      border-radius: 12px;
+      transform: translateX(-50%) translateY(-150%); 
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+      z-index: 9999999; 
+      text-align: center; 
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.18);
+      box-sizing: border-box;
+      pointer-events: auto;
+    }
+    #customNotification.show { transform: translateX(-50%) translateY(0); }
+    #customNotification.error { background: #dc2626; }
+    #customNotification.success { background: #009661; }
+
+    /* MODALS */
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); display: none; justify-content: center; align-items: center; padding: 20px; z-index: 3000; backdrop-filter: blur(2px); }
+    .modal { background: #ffffff; padding: 25px; border-radius: 16px; width: 100%; max-width: 380px; text-align: center; border: 1px solid #cbd5e1; box-shadow: 0 10px 30px rgba(0,0,0,0.15); max-height: 90vh; overflow-y: auto; }
+    .modal h3 { font-size: 18px; color: #0f172a; margin-bottom: 15px; font-weight: 800; }
+    .modal p { font-size: 13px; color: #64748b; margin-bottom: 15px; line-height: 1.4; }
+    .modal input { width: 100%; padding: 12px; margin-bottom: 12px; background: #f8fafc; border: 1px solid #cbd5e1; color: #0f172a; border-radius: 8px; font-size: 14px; outline: none; }
+    .modal input:focus { border-color: #009661; background: #ffffff; }
+    .close-btn { background: #e2e8f0; color: #334155; margin-top: 8px; }
+    .close-btn:hover { background: #cbd5e1; }
+
+    /* PAYLINK IFRAME MODAL */
+    .paylink-modal { max-width: 500px; padding: 15px; }
+    .iframe-wrapper { width: 100%; border-radius: 8px; overflow: hidden; background: #fff; }
+    iframe#palpluss-iframe { width: 100%; border: none; min-height: 560px; display: block; transition: height 0.2s ease; }
+
+    /* RECEIPT CARD */
+    .receipt-card { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 15px; text-align: left; margin-bottom: 15px; }
+    .receipt-card h4 { color: #166534; font-size: 16px; margin-bottom: 10px; text-align: center; }
+    .receipt-row { display: flex; justify-content: space-between; font-size: 13px; padding: 6px 0; border-bottom: 1px dashed #cbd5e1; }
+    .receipt-row span:first-child { color: #64748b; font-weight: 600; }
+    .receipt-row span:last-child { color: #0f172a; font-weight: 700; word-break: break-all; }
+
+    /* LOADING SCREEN */
+    .loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.7); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 4000; color: white; }
+    .spinner { width: 45px; height: 45px; border: 4px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: #009661; animation: spin 0.8s linear infinite; margin-bottom: 12px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .tab-header { display: flex; border-bottom: 2px solid #e2e8f0; margin-bottom: 15px; }
+    .tab-btn { flex: 1; padding: 10px; cursor: pointer; color: #64748b; font-weight: bold; font-size: 14px; background: none; border: none; }
+    .tab-btn.active { color: #009661; border-bottom: 2px solid #009661; }
+
+    .hidden { display: none !important; }
+  </style>
+
+  <!-- FIREBASE SDKs & CONFIG -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getDatabase, ref, set, get, child, update, push } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBeRMxf0eBTw_39zWFE6OQOOqDbc5_pcGc",
+      authDomain: "share254.firebaseapp.com",
+      databaseURL: "https://share254-default-rtdb.firebaseio.com",
+      projectId: "share254",
+      storageBucket: "share254.firebasestorage.app",
+      messagingSenderId: "453207392583",
+      appId: "1:453207392583:web:fc22a6457df6c77928cc62",
+      measurementId: "G-YVL1C232XB"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    window.db = db;
+    window.dbRef = ref;
+    window.dbSet = set;
+    window.dbGet = get;
+    window.dbChild = child;
+    window.dbUpdate = update;
+    window.dbPush = push;
+  </script>
+</head>
+<body>
+
+  <!-- FULL SCREEN DESKTOP RESTRICTION WARNING OVERLAY -->
+  <div id="desktopWarningOverlay">
+    <div class="desktop-warning-box">
+      <div class="desktop-warning-icon">
+        <svg viewBox="0 0 24 24">
+          <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+          <line x1="8" y1="21" x2="16" y2="21"></line>
+          <line x1="12" y1="17" x2="12" y2="21"></line>
+          <line x1="4" y1="7" x2="20" y2="7"></line>
+        </svg>
+      </div>
+      <h2>Mobile Device Required</h2>
+      <p>This VIP Community portal is strictly optimized for smartphones. Desktop and browser access are disabled.</p>
+      <div class="device-badge-row">
+        <span class="device-badge">Desktop Blocked</span>
+        <span class="device-badge">Use Smartphone</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- NOTIFICATION & LOADING OVERLAYS -->
+  <div id="customNotification">Notification message here</div>
+  <div class="loading-overlay" id="loadingScreen">
+    <div class="spinner"></div>
+    <p id="loadingText" style="font-weight: bold; font-size: 14px;">Loading...</p>
+  </div>
+
+  <!-- AUTH MODAL -->
+  <div class="modal-overlay" id="authModal">
+    <div class="modal">
+      <div class="tab-header">
+        <button class="tab-btn active" id="tabSignInBtn" onclick="switchAuthTab('signin')">Sign In</button>
+        <button class="tab-btn" id="tabSignUpBtn" onclick="switchAuthTab('signup')">Register</button>
+      </div>
+
+      <div id="signInForm">
+        <p>Enter your nickname and password to access your account.</p>
+        <input type="text" id="loginNickname" placeholder="Nickname" />
+        <input type="password" id="loginPassword" placeholder="Password" />
+        <button class="btn" onclick="completeLogin()">SIGN IN</button>
+      </div>
+
+      <div id="signUpStep1">
+        <p>Enter Inviter Code first to continue.</p>
+        <input type="text" id="inviterCode" placeholder="Enter Inviter Code" />
+        <button class="btn" onclick="verifyInviterCode()">VERIFY CODE</button>
+      </div>
+
+      <div id="signUpStep2" class="hidden">
+        <p style="color:#16a34a; font-weight:bold;">Inviter Code Verified!</p>
+        <p>Choose your unique nickname and password.</p>
+        <input type="text" id="signUpNickname" placeholder="Choose Nickname" />
+        <input type="password" id="signUpPassword" placeholder="Choose Password" />
+        <button class="btn" onclick="completeSignUp()">REGISTER NOW</button>
+      </div>
+
+      <button class="btn close-btn" onclick="closeModal('authModal')">Cancel</button>
+    </div>
+  </div>
+
+  <!-- PALPLUSS PAYLINK IFRAME WIDGET MODAL -->
+  <div class="modal-overlay" id="palplussPayModal">
+    <div class="modal paylink-modal">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+        <h4 style="font-size: 15px; color: #0f172a;">Join VIP WhatsApp Community (KES 30)</h4>
+        <button onclick="closePalplussPayModal(true)" style="background: none; border: none; font-size: 18px; cursor: pointer; color: #64748b;">✕</button>
+      </div>
+      <div class="iframe-wrapper">
+        <iframe id="palpluss-iframe" src="about:blank" allow="payment"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUCCESS RECEIPT MODAL -->
+  <div class="modal-overlay" id="receiptModal">
+    <div class="modal">
+      <div class="receipt-card">
+        <h4>🎉 Payment Confirmed!</h4>
+        <p style="text-align: center; font-size: 12px; margin-bottom: 12px; color: #15803d;">Your account is active. Click below to join the VIP group.</p>
+        <div class="receipt-row">
+          <span>Ref / TX ID:</span>
+          <span id="rcptTxId">---</span>
+        </div>
+        <div class="receipt-row">
+          <span>Amount Paid:</span>
+          <span id="rcptAmount">---</span>
+        </div>
+        <div class="receipt-row">
+          <span>Phone:</span>
+          <span id="rcptPhone">---</span>
+        </div>
+      </div>
+      <button class="btn btn-main-green" onclick="launchWhatsAppGroup()" style="display: flex; text-decoration: none; margin-bottom: 10px; text-align: center; justify-content: center;">JOIN VIP GROUP NOW</button>
+      <button class="btn close-btn" onclick="closeModal('receiptModal')">CLOSE & START EARNING</button>
+    </div>
+  </div>
+
+  <!-- MAIN APP CONTAINER -->
+  <main class="app-container">
+
+    <!-- MASTER CARD WRAPPER -->
+    <div class="master-card">
+
+      <!-- GREEN VIP HEADER -->
+      <div class="vip-header">
+        <div class="header-top-nav">
+          <div id="loginBtnNav">
+            <button class="login-header-btn" onclick="openAuthModal('signin')">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+              Login
+            </button>
+          </div>
+          <div id="userProfileNav" class="user-dropdown hidden">
+            <button class="login-header-btn" onclick="toggleDropdown()">
+              <span id="navNickname">@User</span> ▾
+            </button>
+            <div id="dropdownMenu" class="dropdown-content">
+              <a href="#" onclick="logout()">Logout</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="wa-circle-icon">
+          <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+        </div>
+
+        <h1>VIP WhatsApp Community</h1>
+        <p>Join for KES 30 & Earn KES 10 per Referral!</p>
+      </div>
+
+      <!-- CARD BODY INNER CONTENT -->
+      <div class="card-body-content">
+
+        <!-- ACCOUNT BALANCE BOX -->
+        <div class="balance-card-box">
+          <div class="balance-top-row">
+            <div class="balance-col-left">
+              <span class="label">ACCOUNT BALANCE</span>
+              <h2 id="totalEarned">KES 0.00</h2>
+            </div>
+            <div class="balance-col-right">
+              <span class="label">ENTRY FEE</span>
+              <h3>KES 30</h3>
+            </div>
+          </div>
+
+          <div class="balance-divider"></div>
+
+          <div class="commission-info-row">
+            <div class="commission-left">
+              <span style="font-size: 16px;">🪙</span>
+              <span>Commission Earned:</span>
+            </div>
+            <div class="commission-val" id="commissionEarnedText">KES 0.00</div>
+          </div>
+
+          <div class="commission-subtext">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+            <span>Earn <strong>KES 10 commission</strong> automatically for every friend who joins using your code!</span>
+          </div>
+        </div>
+
+        <!-- ALWAYS VISIBLE UNLOCKED SHARE & COPY CARD -->
+        <div id="shareBoxSection" class="share-box-card hidden">
+          <label>📢 SHARE & EARN CODE</label>
+          <textarea id="userInviteMessage" readonly></textarea>
+          <div class="share-actions">
+            <button class="icon-btn-transparent" onclick="copyInviteMessage()">
+              <svg viewBox="0 0 24 24">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              <span>Copy</span>
+            </button>
+            <button class="icon-btn-transparent" onclick="nativeShareMessage()">
+              <svg viewBox="0 0 24 24">
+                <circle cx="18" cy="5" r="3"></circle>
+                <circle cx="6" cy="12" r="3"></circle>
+                <circle cx="18" cy="19" r="3"></circle>
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+              </svg>
+              <span>Share</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- MAIN ACTION BUTTON -->
+        <div id="actionArea">
+          <button class="btn-main-green" id="primaryCtaBtn" onclick="handlePrimaryAction()">
+            <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+            <span id="primaryCtaText">Join Group Now</span>
+          </button>
+        </div>
+
+        <!-- NETWORK INVITES LIST CARD -->
+        <div class="card invite-section" id="invitesSectionAnchor">
+          <h4>YOUR INVITES <span id="networkCountBadge" style="font-size: 11px; background: #e2e8f0; padding: 2px 8px; border-radius: 12px; color: #475569; font-weight: 800;">0 / 0</span></h4>
+          <ul class="invite-list" id="inviteList">
+            <!-- Invites rendered dynamically -->
+          </ul>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <script>
+    const PAYLINK_ID = "7f2a7c04-69de-4823-81aa-6a193f99cb79";
+    const PAYLINK_URL = `https://link.palpluss.com/${PAYLINK_ID}?embed=1`;
+    const WHATSAPP_GROUP_CODE = "JGns880DJGQDgUogLM3qe7";
+
+    let currentUser = null; 
+    let validInviterCode = "";
+    let registeredRefererOwnerUid = "";
+    let isRegistering = false;
+    let isProcessingSuccess = false;
+
+    // IMMEDIATE DESKTOP DETECTION CHECK ON SCRIPT LOAD
+    (function checkDeviceType() {
+      const isAndroid = /Android/i.test(navigator.userAgent);
+      const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+      const isDesktop = !isAndroid && !isIOS;
+
+      if (isDesktop) {
+        document.addEventListener("DOMContentLoaded", function () {
+          const overlay = document.getElementById('desktopWarningOverlay');
+          if (overlay) overlay.style.display = 'flex';
+        });
+      }
+    })();
+
+    function showNotification(message, type = 'success') {
+      const note = document.getElementById('customNotification');
+      note.innerText = message;
+      note.className = `show ${type}`;
+      setTimeout(() => { note.className = ''; }, 3500);
+    }
+
+    function showLoading(text = "Loading...") {
+      document.getElementById('loadingText').innerText = text;
+      document.getElementById('loadingScreen').style.display = 'flex';
+    }
+
+    function hideLoading() {
+      document.getElementById('loadingScreen').style.display = 'none';
+    }
+
+    window.addEventListener('DOMContentLoaded', async () => {
+      const isAndroid = /Android/i.test(navigator.userAgent);
+      const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+      if (!isAndroid && !isIOS) {
+        document.getElementById('desktopWarningOverlay').style.display = 'flex';
+        return;
+      }
+
+      setupPalplussPostMessageListener();
+      
+      const savedUid = localStorage.getItem('share254_app_uid');
+      if (savedUid) {
+        showLoading("Restoring session...");
+        try {
+          const userSnap = await window.dbGet(window.dbRef(window.db, `users/${savedUid}`));
+          if (userSnap.exists()) {
+            const userData = userSnap.val();
+            currentUser = {
+              uid: savedUid,
+              nickname: userData.nickname,
+              isPaid: userData.isPaid,
+              balance: userData.balance !== undefined ? userData.balance : 0,
+              invitedBy: userData.invitedBy || null
+            };
+            await fetchAndRenderUserData();
+          } else {
+            localStorage.removeItem('share254_app_uid');
+            updateUI({}, "0 / 0");
+          }
+        } catch (e) {
+          console.error(e);
+          updateUI({}, "0 / 0");
+        } finally {
+          hideLoading();
+        }
+      } else {
+        updateUI({}, "0 / 0");
+      }
+    });
+
+    function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+    function closeModal(id) { 
+      document.getElementById(id).style.display = 'none';
+      if (id === 'authModal') resetRegisterSteps();
+      if (id === 'palplussPayModal') {
+        document.getElementById('palpluss-iframe').src = "about:blank";
+      }
+    }
+
+    function closePalplussPayModal(cancelledByUser = false) {
+      closeModal('palplussPayModal');
+      if (cancelledByUser) {
+        showNotification('Payment cancelled. Purchase required to unlock your link.', 'error');
+      }
+    }
+
+    function toggleDropdown() {
+      const menu = document.getElementById('dropdownMenu');
+      menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+    }
+
+    function openAuthModal(tab = 'signin') {
+      switchAuthTab(tab);
+      openModal('authModal');
+    }
+
+    function switchAuthTab(tab) {
+      const signInForm = document.getElementById('signInForm');
+      if (tab === 'signin') {
+        signInForm.classList.remove('hidden');
+        document.getElementById('signUpStep1').classList.add('hidden');
+        document.getElementById('signUpStep2').classList.add('hidden');
+        document.getElementById('tabSignInBtn').classList.add('active');
+        document.getElementById('tabSignUpBtn').classList.remove('active');
+      } else {
+        signInForm.classList.add('hidden');
+        resetRegisterSteps();
+        document.getElementById('tabSignUpBtn').classList.add('active');
+        document.getElementById('tabSignInBtn').classList.remove('active');
+      }
+    }
+
+    function resetRegisterSteps() {
+      document.getElementById('signUpStep1').classList.remove('hidden');
+      document.getElementById('signUpStep2').classList.add('hidden');
+    }
+
+    function launchWhatsAppGroup() {
+      const isAndroid = /Android/i.test(navigator.userAgent);
+      const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+      const isDesktop = !isAndroid && !isIOS;
+
+      if (isDesktop) {
+        document.getElementById('desktopWarningOverlay').style.display = 'flex';
+        return;
+      }
+
+      const whatsappAppUri = `whatsapp://chat?code=${WHATSAPP_GROUP_CODE}`;
+      const startTime = Date.now();
+      window.location.href = whatsappAppUri;
+
+      setTimeout(function () {
+        if (Date.now() - startTime < 1500) {
+          if (isAndroid) {
+            window.location.href = "https://play.google.com/store/apps/details?id=com.whatsapp";
+          } else if (isIOS) {
+            window.location.href = "https://apps.apple.com/app/whatsapp-messenger/id310633997";
+          }
+        }
+      }, 1000);
+    }
+
+    function handlePrimaryAction() {
+      const isAndroid = /Android/i.test(navigator.userAgent);
+      const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+      if (!isAndroid && !isIOS) {
+        document.getElementById('desktopWarningOverlay').style.display = 'flex';
+        return;
+      }
+
+      if (!currentUser) {
+        openAuthModal('signin');
+      } else if (!currentUser.isPaid) {
+        openPalplussWidget();
+      } else {
+        launchWhatsAppGroup();
+      }
+    }
+
+    function openPalplussWidget() {
+      if (!currentUser) {
+        openAuthModal('signin');
+        return;
+      }
+
+      if (currentUser.isPaid) {
+        showNotification('Your account is already active!', 'error');
+        return;
+      }
+
+      const iframe = document.getElementById('palpluss-iframe');
+      iframe.src = PAYLINK_URL;
+      openModal('palplussPayModal');
+    }
+
+    function setupPalplussPostMessageListener() {
+      window.addEventListener('message', async function(e) {
+        if (!e.data || typeof e.data !== 'object') return;
+
+        if (e.data.type === 'RESIZE' && e.data.height) {
+          const iframe = document.getElementById('palpluss-iframe');
+          if (iframe) iframe.style.height = e.data.height + 'px';
+        }
+
+        if (e.data.type === 'PAYMENT_CANCELLED' || e.data.type === 'PAYMENT_CANCEL' || e.data.type === 'CANCELLED') {
+          closeModal('palplussPayModal');
+          showNotification('Payment cancelled. Purchase required to unlock your link.', 'error');
+          return;
+        }
+
+        if (e.data.type === 'PAYMENT_FAILED' || e.data.type === 'PAYMENT_FAILURE' || e.data.type === 'FAILED') {
+          closeModal('palplussPayModal');
+          const reason = e.data.message || e.data.reason || 'Payment failed or was declined. Please try again.';
+          showNotification(reason, 'error');
+          return;
+        }
+
+        if (e.data.type === 'PAYMENT_SUCCESS') {
+          if (isProcessingSuccess) return;
+          isProcessingSuccess = true;
+
+          closeModal('palplussPayModal');
+          showLoading("Activating your account...");
+
+          try {
+            await handleSuccessfulPaymentActivation(e.data);
+          } catch (err) {
+            console.error("Activation error:", err);
+            showNotification("Failed to record activation. Contact support.", "error");
+          } finally {
+            isProcessingSuccess = false;
+            hideLoading();
+          }
+        }
+      });
+    }
+
+    async function handleSuccessfulPaymentActivation(paymentData) {
+      if (!currentUser) return;
+      const db = window.db;
+
+      currentUser.isPaid = true;
+      await window.dbUpdate(window.dbRef(db, `users/${currentUser.uid}`), { isPaid: true });
+
+      if (currentUser.invitedBy && currentUser.invitedBy !== "system_admin_default") {
+        const referrerRef = window.dbRef(db, `users/${currentUser.invitedBy}`);
+        const referrerSnap = await window.dbGet(referrerRef);
+
+        if (referrerSnap.exists()) {
+          const referrerData = referrerSnap.val();
+          const currentReferrerBalance = referrerData.balance !== undefined ? referrerData.balance : 0;
+          const newReferrerBalance = currentReferrerBalance + 10;
+          await window.dbUpdate(referrerRef, { balance: newReferrerBalance });
+        }
+
+        await window.dbUpdate(window.dbRef(db, `users/${currentUser.invitedBy}/invites/${currentUser.uid}`), {
+          status: "paid"
+        });
+      }
+
+      document.getElementById('rcptTxId').innerText = paymentData.txId || 'N/A';
+      document.getElementById('rcptAmount').innerText = paymentData.amount ? `KES ${paymentData.amount}` : 'KES 30';
+      document.getElementById('rcptPhone').innerText = paymentData.phone || 'N/A';
+
+      await fetchAndRenderUserData();
+      showNotification('Payment verified! VIP group access unlocked.', 'success');
+      openModal('receiptModal');
+    }
+
+    async function verifyInviterCode() {
+      const codeInput = document.getElementById('inviterCode').value.trim().toUpperCase();
+      if (!codeInput) {
+        showNotification('Please enter a valid Inviter Code!', 'error');
+        return;
+      }
+
+      showLoading("Verifying code...");
+      try {
+        const db = window.db;
+        const codesRef = window.dbRef(db, 'codes');
+        const codesSnap = await window.dbGet(codesRef);
+
+        if (!codesSnap.exists() || codesSnap.val() === null) {
+          const defaultCode = "SHEA-1001";
+          const systemTimestamp = new Date().toISOString();
+          await window.dbSet(window.dbRef(db, `codes/${defaultCode}`), {
+            ownerUid: "system_admin_default",
+            createdAt: systemTimestamp,
+            referer: "SYSTEM"
+          });
+        }
+
+        const targetSnap = await window.dbGet(window.dbChild(codesRef, codeInput));
+        if (!targetSnap.exists()) {
+          showNotification('Invalid Inviter Code!', 'error');
+          hideLoading();
+          return;
+        }
+
+        validInviterCode = codeInput;
+        registeredRefererOwnerUid = targetSnap.val().ownerUid;
+
+        document.getElementById('signUpStep1').classList.add('hidden');
+        document.getElementById('signUpStep2').classList.remove('hidden');
+        showNotification('Code verified successfully!', 'success');
+      } catch (error) {
+        console.error(error);
+        showNotification('Error checking code. Try again.', 'error');
+      } finally {
+        hideLoading();
+      }
+    }
+
+    async function completeSignUp() {
+      if (isRegistering) return;
+
+      const nicknameInput = document.getElementById('signUpNickname');
+      const passInput = document.getElementById('signUpPassword');
+      const nickname = nicknameInput.value.trim();
+      const pass = passInput.value.trim();
+
+      if (!nickname || !pass) {
+        showNotification('Please enter a nickname and password', 'error');
+        return;
+      }
+
+      isRegistering = true;
+      showLoading("Creating your account...");
+
+      try {
+        const db = window.db;
+        const usersSnap = await window.dbGet(window.dbRef(db, 'users'));
+        if (usersSnap.exists()) {
+          let nicknameExists = false;
+          usersSnap.forEach((childSnap) => {
+            const userData = childSnap.val();
+            if (userData.nickname && userData.nickname.toLowerCase() === nickname.toLowerCase()) {
+              nicknameExists = true;
+            }
+          });
+
+          if (nicknameExists) {
+            showNotification('Nickname already registered!', 'error');
+            isRegistering = false;
+            hideLoading();
+            return;
+          }
+        }
+
+        const myUniqueCode = `SHARE_${nickname.toUpperCase()}`;
+        const codeCheckSnap = await window.dbGet(window.dbChild(window.dbRef(db), `codes/${myUniqueCode}`));
+        if (codeCheckSnap.exists()) {
+          showNotification('Nickname is already taken.', 'error');
+          isRegistering = false;
+          hideLoading();
+          return;
+        }
+
+        const newUserRef = window.dbRef(db, 'users/' + Date.now());
+        const newUserId = newUserRef.key;
+        const timestamp = new Date().toISOString();
+
+        await window.dbSet(newUserRef, {
+          nickname: nickname,
+          password: pass,
+          time: timestamp,
+          isPaid: false,
+          balance: 0,
+          invitedBy: registeredRefererOwnerUid
+        });
+
+        await window.dbSet(window.dbRef(db, `codes/${myUniqueCode}`), {
+          ownerUid: newUserId,
+          createdAt: timestamp,
+          referer: validInviterCode
+        });
+
+        await window.dbSet(window.dbRef(db, `users/${registeredRefererOwnerUid}/invites/${newUserId}`), {
+          name: nickname,
+          status: "pending",
+          uid: newUserId,
+          time: timestamp
+        });
+
+        closeModal('authModal');
+        showNotification('Registration successful! Welcome.', 'success');
+
+        currentUser = {
+          uid: newUserId,
+          nickname: nickname,
+          isPaid: false,
+          balance: 0,
+          invitedBy: registeredRefererOwnerUid
+        };
+
+        localStorage.setItem('share254_app_uid', newUserId);
+        await fetchAndRenderUserData();
+      } catch (error) {
+        console.error(error);
+        showNotification('Registration failed. Try again.', 'error');
+      } finally {
+        isRegistering = false;
+        hideLoading();
+      }
+    }
+
+    async function completeLogin() {
+      const nickname = document.getElementById('loginNickname').value.trim();
+      const pass = document.getElementById('loginPassword').value.trim();
+
+      if (!nickname || !pass) {
+        showNotification('Please enter nickname and password', 'error');
+        return;
+      }
+
+      showLoading("Signing in...");
+      try {
+        const usersSnap = await window.dbGet(window.dbRef(window.db, 'users'));
+        if (!usersSnap.exists()) {
+          showNotification('No accounts found.', 'error');
+          hideLoading();
+          return;
+        }
+
+        let foundUser = null;
+        let foundUid = null;
+
+        usersSnap.forEach((childSnap) => {
+          const userData = childSnap.val();
+          if (userData.nickname === nickname && userData.password === pass) {
+            foundUser = userData;
+            foundUid = childSnap.key;
+          }
+        });
+
+        if (!foundUser) {
+          showNotification('Incorrect nickname or password!', 'error');
+          hideLoading();
+          return;
+        }
+
+        currentUser = {
+          uid: foundUid,
+          nickname: foundUser.nickname,
+          isPaid: foundUser.isPaid,
+          balance: foundUser.balance !== undefined ? foundUser.balance : 0,
+          invitedBy: foundUser.invitedBy || null
+        };
+
+        localStorage.setItem('share254_app_uid', foundUid);
+        closeModal('authModal');
+        showNotification('Signed in successfully!', 'success');
+        await fetchAndRenderUserData();
+      } catch (error) {
+        console.error(error);
+        showNotification('Login error occurred.', 'error');
+      } finally {
+        hideLoading();
+      }
+    }
+
+    async function fetchAndRenderUserData() {
+      if (!currentUser) return;
+
+      try {
+        const userSnap = await window.dbGet(window.dbRef(window.db, `users/${currentUser.uid}`));
+        if (!userSnap.exists()) return;
+        const userData = userSnap.val();
+
+        currentUser.isPaid = userData.isPaid;
+        currentUser.balance = userData.balance !== undefined ? userData.balance : 0;
+        currentUser.invitedBy = userData.invitedBy || null;
+
+        const codesSnap = await window.dbGet(window.dbRef(window.db, 'codes'));
+        let myCode = `SHARE_${currentUser.nickname.toUpperCase()}`; 
+        codesSnap.forEach((codeSnap) => {
+          if (codeSnap.val().ownerUid === currentUser.uid) {
+            myCode = codeSnap.key;
+          }
+        });
+        currentUser.myCode = myCode;
+
+        updateUI(userData.invites || {});
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    function updateUI(invitesObj = {}, customBadgeText = null) {
+      const loginBtnNav = document.getElementById('loginBtnNav');
+      const userProfileNav = document.getElementById('userProfileNav');
+      const navNickname = document.getElementById('navNickname');
+      const shareBoxSection = document.getElementById('shareBoxSection');
+      const inviteList = document.getElementById('inviteList');
+      const totalEarned = document.getElementById('totalEarned');
+      const commissionEarnedText = document.getElementById('commissionEarnedText');
+      const networkCountBadge = document.getElementById('networkCountBadge');
+      const inviteMessageInput = document.getElementById('userInviteMessage');
+      const primaryCtaText = document.getElementById('primaryCtaText');
+
+      const inviteKeys = Object.keys(invitesObj);
+      
+      let paidCount = 0;
+      inviteKeys.forEach((key) => {
+        if (invitesObj[key].status === 'paid') paidCount++;
+      });
+
+      if (!currentUser) {
+        loginBtnNav.classList.remove('hidden');
+        userProfileNav.classList.add('hidden');
+        shareBoxSection.classList.add('hidden');
+        totalEarned.innerText = "KES 0.00";
+        commissionEarnedText.innerText = "KES 0.00";
+        primaryCtaText.innerText = "Join Group Now";
+      } 
+      else if (currentUser && !currentUser.isPaid) {
+        navNickname.innerText = `@${currentUser.nickname}`;
+        loginBtnNav.classList.add('hidden');
+        userProfileNav.classList.remove('hidden');
+        shareBoxSection.classList.add('hidden');
+        totalEarned.innerText = `KES ${currentUser.balance.toFixed(2)}`;
+        commissionEarnedText.innerText = `KES ${currentUser.balance.toFixed(2)}`;
+        primaryCtaText.innerText = "PAY KES 30 TO JOIN";
+      } 
+      else if (currentUser && currentUser.isPaid) {
+        navNickname.innerText = `@${currentUser.nickname}`;
+        loginBtnNav.classList.add('hidden');
+        userProfileNav.classList.remove('hidden');
+        shareBoxSection.classList.remove('hidden'); 
+
+        inviteMessageInput.value = `Join our VIP WhatsApp Community now!\n\nLink: https://share-254.github.io/grow/\nInvite code: ${currentUser.myCode}`;
+        totalEarned.innerText = `KES ${currentUser.balance.toFixed(2)}`;
+        commissionEarnedText.innerText = `KES ${currentUser.balance.toFixed(2)}`;
+        primaryCtaText.innerText = "OPEN VIP GROUP 💬";
+      }
+
+      if (customBadgeText) {
+        networkCountBadge.innerText = customBadgeText;
+      } else {
+        networkCountBadge.innerText = `${paidCount} / ${inviteKeys.length}`;
+      }
+
+      inviteList.innerHTML = "";
+      if (inviteKeys.length === 0) {
+        inviteList.innerHTML = `<li><span style="color:#94a3b8;">No invites yet</span></li>`;
+      } else {
+        inviteKeys.forEach((key) => {
+          const inv = invitesObj[key];
+          const badgeClass = inv.status === 'paid' ? 'paid' : 'pending';
+          inviteList.innerHTML += `
+            <li><span>User: @${inv.name}</span><span class="badge ${badgeClass}">${inv.status.toUpperCase()}</span></li>
+          `;
+        });
+      }
+    }
+
+    function logout() {
+      showLoading("Signing out...");
+      setTimeout(() => {
+        currentUser = null;
+        localStorage.removeItem('share254_app_uid');
+        document.getElementById('dropdownMenu').style.display = 'none';
+        updateUI({}, "0 / 0");
+        hideLoading();
+        showNotification('Signed out successfully.', 'success');
+        openAuthModal('signin');
+      }, 500);
+    }
+
+    async function copyInviteMessage() {
+      const messageInput = document.getElementById('userInviteMessage');
+      const textToCopy = messageInput.value;
+      try {
+        await navigator.clipboard.writeText(textToCopy);
+        showNotification('Copied invite message to clipboard!', 'success');
+      } catch (err) {
+        messageInput.select();
+        document.execCommand('copy');
+        showNotification('Copied invite message to clipboard!', 'success');
+      }
+    }
+
+    async function nativeShareMessage() {
+      const messageText = document.getElementById('userInviteMessage').value;
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: 'VIP WhatsApp Community Invitation',
+            text: messageText
+          });
+          showNotification('Shared successfully!', 'success');
+        } catch (error) {
+          if (error.name !== 'AbortError') {
+            console.error('Sharing failed:', error);
+          }
+        }
+      } else {
+        copyInviteMessage();
+      }
+    }
+  </script>
+
+</body>
+</html>
