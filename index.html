@@ -443,7 +443,7 @@
     <div class="modal">
       <div class="receipt-card">
         <h4>🎉 You're Officially In!</h4>
-        <p style="text-align: center; font-size: 12px; margin-bottom: 12px; color: #075E54;">Your account is live! Tap below to join our WhatsApp group.</p>
+        <p style="text-align: center; font-size: 12px; margin-bottom: 12px; color: #075E54;">Your account is live! Tap below to open WhatsApp.</p>
         <div class="receipt-row">
           <span>Ref / TX ID:</span>
           <span id="rcptTxId">---</span>
@@ -457,7 +457,7 @@
           <span id="rcptPhone">---</span>
         </div>
       </div>
-      <button class="btn btn-main-green" onclick="launchWhatsAppGroup()" style="display: flex; text-decoration: none; margin-bottom: 10px; text-align: center; justify-content: center;">JOIN WHATSAPP GROUP NOW 💬</button>
+      <button class="btn btn-main-green" onclick="launchWhatsAppGroup()" style="display: flex; text-decoration: none; margin-bottom: 10px; text-align: center; justify-content: center;">OPEN WHATSAPP GROUP 💬</button>
       <button class="btn close-btn" onclick="closeModal('receiptModal')">CLOSE & START SHARING</button>
     </div>
   </div>
@@ -576,7 +576,8 @@
   <script>
     const PAYLINK_ID = "e2251db9-ec04-43be-91de-9c1f6c17ee2d";
     const BASE_PAYLINK_URL = `https://link.palpluss.com/${PAYLINK_ID}?embed=1`;
-    const WHATSAPP_GROUP_CODE = "JGns880DJGQDgUogLM3qe7";
+    const WHATSAPP_GROUP_URL = "https://chat.whatsapp.com/LcPqWXOorKSBsv4gAgyMFm?s=cl&p=a&iam=2";
+    const WHATSAPP_INVITE_CODE = "LcPqWXOorKSBsv4gAgyMFm";
 
     let currentUser = null; 
     let validInviterCode = "";
@@ -681,7 +682,21 @@
     }
 
     function launchWhatsAppGroup() {
-      window.open(`https://chat.whatsapp.com/${WHATSAPP_GROUP_CODE}`, '_blank');
+      // Check if user is on mobile device to force opening in WhatsApp app
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      
+      if (isMobile) {
+        // Try opening directly via the WhatsApp mobile app deep link schema
+        window.location.href = `whatsapp://chat?code=${WHATSAPP_INVITE_CODE}`;
+        
+        // Fallback to standard web link if app isn't triggered after short delay
+        setTimeout(() => {
+          window.open(WHATSAPP_GROUP_URL, '_blank');
+        }, 800);
+      } else {
+        // Desktop browsers open the web group link
+        window.open(WHATSAPP_GROUP_URL, '_blank');
+      }
     }
 
     function handlePrimaryAction() {
@@ -705,7 +720,6 @@
 
       closeModal('phonePromptModal');
 
-      // Use user's nickname for name field, prefill phone and amount, lock all fields
       const userNickname = (currentUser && currentUser.nickname) ? currentUser.nickname : "Member";
       let finalPayUrl = `${BASE_PAYLINK_URL}&name=${encodeURIComponent(userNickname)}&phone=${encodeURIComponent(phoneInput)}&amount=30&readonly=1&lock_name=1&lock_phone=1&lock_amount=1`;
 
@@ -1049,7 +1063,7 @@
         userProfileNav.classList.remove('hidden');
         shareBoxSection.classList.remove('hidden'); 
 
-        inviteMessageInput.value = `Come join the Vibe WhatsApp group!\n\nLink: https://https://share-254.github.io/whatsApp/\nMy Invite Code: ${currentUser.myCode}`;
+        inviteMessageInput.value = `Come join the Vibe WhatsApp group!\n\nLink: https://share-254.github.io/grow/\nMy Invite Code: ${currentUser.myCode}`;
         totalEarned.innerText = `KES ${currentUser.balance.toFixed(2)}`;
         commissionEarnedText.innerText = `KES ${currentUser.balance.toFixed(2)}`;
         primaryCtaText.innerText = "OPEN WHATSAPP GROUP 💬";
