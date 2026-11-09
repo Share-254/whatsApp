@@ -284,6 +284,26 @@
       box-shadow: 0 2px 10px rgba(0,0,0,0.02);
     }
 
+    /* DESKTOP BLOCKER OVERLAY */
+    #desktopBlocker {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #075E54;
+      color: #ffffff;
+      z-index: 99999999;
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 24px;
+    }
+    #desktopBlocker h2 { font-size: 26px; margin-bottom: 12px; font-weight: 900; }
+    #desktopBlocker p { font-size: 15px; opacity: 0.9; max-width: 400px; line-height: 1.5; }
+
     /* CUSTOM NOTIFICATION BANNER */
     #customNotification { 
       position: fixed; 
@@ -374,6 +394,13 @@
 </head>
 <body>
 
+  <!-- DESKTOP / PC BLOCKER SCREEN -->
+  <div id="desktopBlocker">
+    <div style="font-size: 50px; margin-bottom: 16px;">📱</div>
+    <h2>Mobile Device Required</h2>
+    <p>This community portal is strictly optimized for mobile phones. Please open this link using your mobile device to join the Vibe WhatsApp group.</p>
+  </div>
+
   <!-- NOTIFICATION & LOADING OVERLAYS -->
   <div id="customNotification">Notification message here</div>
   <div class="loading-overlay" id="loadingScreen">
@@ -425,7 +452,7 @@
     </div>
   </div>
 
-  <!-- PALPLUSS PAYLINK IFRAME WIDGET MODAL -->
+  <!-- PALPLUSS PAYLINK IFRAME MODAL -->
   <div class="modal-overlay" id="palplussPayModal">
     <div class="modal paylink-modal">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
@@ -576,7 +603,6 @@
   <script>
     const PAYLINK_ID = "e2251db9-ec04-43be-91de-9c1f6c17ee2d";
     const BASE_PAYLINK_URL = `https://link.palpluss.com/${PAYLINK_ID}?embed=1`;
-    const WHATSAPP_GROUP_URL = "https://chat.whatsapp.com/LcPqWXOorKSBsv4gAgyMFm?s=cl&p=a&iam=2";
     const WHATSAPP_INVITE_CODE = "LcPqWXOorKSBsv4gAgyMFm";
 
     let currentUser = null; 
@@ -584,6 +610,14 @@
     let registeredRefererOwnerUid = "";
     let isRegistering = false;
     let isProcessingSuccess = false;
+
+    // Strict Mobile Check on Load
+    function checkDeviceAccess() {
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      if (!isMobile) {
+        document.getElementById('desktopBlocker').style.display = 'flex';
+      }
+    }
 
     function showNotification(message, type = 'success') {
       const note = document.getElementById('customNotification');
@@ -602,6 +636,7 @@
     }
 
     window.addEventListener('DOMContentLoaded', async () => {
+      checkDeviceAccess();
       setupPalplussPostMessageListener();
       
       const savedUid = localStorage.getItem('vibe_app_uid');
@@ -682,21 +717,8 @@
     }
 
     function launchWhatsAppGroup() {
-      // Check if user is on mobile device to force opening in WhatsApp app
-      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-      
-      if (isMobile) {
-        // Try opening directly via the WhatsApp mobile app deep link schema
-        window.location.href = `whatsapp://chat?code=${WHATSAPP_INVITE_CODE}`;
-        
-        // Fallback to standard web link if app isn't triggered after short delay
-        setTimeout(() => {
-          window.open(WHATSAPP_GROUP_URL, '_blank');
-        }, 800);
-      } else {
-        // Desktop browsers open the web group link
-        window.open(WHATSAPP_GROUP_URL, '_blank');
-      }
+      // Strictly trigger the WhatsApp app deep link schema to force opening inside the WhatsApp app
+      window.location.href = `whatsapp://chat?code=${WHATSAPP_INVITE_CODE}`;
     }
 
     function handlePrimaryAction() {
@@ -1060,9 +1082,6 @@
       else if (currentUser && currentUser.isPaid) {
         navNickname.innerText = `@${currentUser.nickname}`;
         loginBtnNav.classList.add('hidden');
- 
-        
-        
         userProfileNav.classList.remove('hidden');
         shareBoxSection.classList.remove('hidden'); 
 
