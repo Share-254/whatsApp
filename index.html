@@ -414,6 +414,18 @@
     </div>
   </div>
 
+  <!-- PAYMENT DETAILS PROMPT MODAL -->
+  <div class="modal-overlay" id="phonePromptModal">
+    <div class="modal">
+      <h3>💳 Confirm Payment Details</h3>
+      <p>Confirm your name and phone number for the KES 30 checkout.</p>
+      <input type="text" id="userCheckoutName" placeholder="Your Full Name" />
+      <input type="tel" id="userCheckoutPhone" placeholder="M-Pesa Phone (e.g. 0712345678)" />
+      <button class="btn btn-main-green" onclick="proceedToPalplussWidget()" style="margin-bottom: 8px;">CONTINUE TO PAYMENT</button>
+      <button class="btn close-btn" onclick="closeModal('phonePromptModal')">Cancel</button>
+    </div>
+  </div>
+
   <!-- PALPLUSS PAYLINK IFRAME WIDGET MODAL -->
   <div class="modal-overlay" id="palplussPayModal">
     <div class="modal paylink-modal">
@@ -564,7 +576,7 @@
 
   <script>
     const PAYLINK_ID = "e2251db9-ec04-43be-91de-9c1f6c17ee2d";
-    const PAYLINK_URL = `https://link.palpluss.com/${PAYLINK_ID}?embed=1`;
+    const BASE_PAYLINK_URL = `https://link.palpluss.com/${PAYLINK_ID}?embed=1`;
     const WHATSAPP_GROUP_CODE = "JGns880DJGQDgUogLM3qe7";
 
     let currentUser = null; 
@@ -677,25 +689,35 @@
       if (!currentUser) {
         openAuthModal('signin');
       } else if (!currentUser.isPaid) {
-        openPalplussWidget();
+        // Prefill name using logged-in user's nickname if available
+        document.getElementById('userCheckoutName').value = currentUser.nickname || "";
+        document.getElementById('userCheckoutPhone').value = "";
+        openModal('phonePromptModal');
       } else {
         launchWhatsAppGroup();
       }
     }
 
-    function openPalplussWidget() {
-      if (!currentUser) {
-        openAuthModal('signin');
+    function proceedToPalplussWidget() {
+      const nameInput = document.getElementById('userCheckoutName').value.trim();
+      const phoneInput = document.getElementById('userCheckoutPhone').value.trim();
+
+      if (!nameInput) {
+        showNotification('Please enter your name!', 'error');
+        return;
+      }
+      if (!phoneInput || phoneInput.length < 9) {
+        showNotification('Please enter a valid M-Pesa phone number!', 'error');
         return;
       }
 
-      if (currentUser.isPaid) {
-        showNotification('Your account is already active!', 'error');
-        return;
-      }
+      closeModal('phonePromptModal');
+
+      // Build target URL with prefilled and locked name, phone, and amount (30 KES)
+      let finalPayUrl = `${BASE_PAYLINK_URL}&name=${encodeURIComponent(nameInput)}&phone=${encodeURIComponent(phoneInput)}&amount=30&readonly=1&lock_name=1&lock_phone=1&lock_amount=1`;
 
       const iframe = document.getElementById('palpluss-iframe');
-      iframe.src = PAYLINK_URL;
+      iframe.src = finalPayUrl;
       openModal('palplussPayModal');
     }
 
