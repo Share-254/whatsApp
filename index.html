@@ -3,86 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VIP WhatsApp Community</title>
+  <title>Vibe - WhatsApp Group</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, -apple-system, sans-serif; }
-    body { background: #f8fafc; color: #0f172a; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 20px 0; }
-
-    /* DESKTOP BLOCKER OVERLAY */
-    #desktopWarningOverlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: #0f172a;
-      z-index: 99999999;
-      display: none;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 24px;
-      text-align: center;
-      color: #ffffff;
-    }
-    .desktop-warning-box {
-      background: #1e293b;
-      border: 1px solid #334155;
-      max-width: 420px;
-      width: 100%;
-      padding: 32px 24px;
-      border-radius: 20px;
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 16px;
-    }
-    .desktop-warning-icon {
-      width: 64px;
-      height: 64px;
-      background: rgba(220, 38, 38, 0.15);
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: 4px;
-    }
-    .desktop-warning-icon svg {
-      width: 32px;
-      height: 32px;
-      stroke: #ef4444;
-      stroke-width: 2;
-      fill: none;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-    .desktop-warning-box h2 {
-      font-size: 20px;
-      font-weight: 900;
-      color: #f8fafc;
-      letter-spacing: -0.3px;
-    }
-    .desktop-warning-box p {
-      font-size: 14px;
-      color: #94a3b8;
-      line-height: 1.5;
-    }
-    .device-badge-row {
-      display: flex;
-      gap: 8px;
-      margin-top: 4px;
-    }
-    .device-badge {
-      background: rgba(239, 68, 68, 0.1);
-      color: #fca5a5;
-      font-size: 11px;
-      font-weight: 800;
-      text-transform: uppercase;
-      padding: 6px 12px;
-      border-radius: 8px;
-      border: 1px solid rgba(239, 68, 68, 0.2);
-    }
+    body { background: #f4f7f6; color: #111b21; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 20px 0; }
 
     /* MAIN CONTAINER */
     .app-container {
@@ -97,19 +21,19 @@
     /* MASTER CARD WRAPPER */
     .master-card {
       background: #ffffff;
-      border-radius: 20px;
-      border: 1px solid #e2e8f0;
+      border-radius: 24px;
+      border: 1px solid #e0e8e5;
       overflow: hidden;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      box-shadow: 0 10px 25px -5px rgba(18, 140, 126, 0.08);
       display: flex;
       flex-direction: column;
     }
 
-    /* GREEN VIP HEADER SECTION */
+    /* WHATSAPP TEAL/GREEN COMMUNITY HEADER SECTION */
     .vip-header {
-      background: #009661;
+      background: linear-gradient(135deg, #075E54 0%, #128C7E 100%);
       color: #ffffff;
-      padding: 24px 20px 28px 20px;
+      padding: 28px 20px 32px 20px;
       text-align: center;
       position: relative;
       display: flex;
@@ -126,10 +50,10 @@
     }
 
     .login-header-btn {
-      background: rgba(0, 0, 0, 0.2);
+      background: rgba(255, 255, 255, 0.18);
       color: #ffffff;
       border: none;
-      padding: 6px 16px;
+      padding: 7px 18px;
       border-radius: 20px;
       font-size: 13px;
       font-weight: 700;
@@ -137,26 +61,27 @@
       display: flex;
       align-items: center;
       gap: 6px;
+      backdrop-filter: blur(4px);
       transition: background 0.2s;
     }
-    .login-header-btn:hover { background: rgba(0, 0, 0, 0.3); }
+    .login-header-btn:hover { background: rgba(255, 255, 255, 0.28); }
 
     .user-dropdown { position: relative; display: inline-block; }
-    .dropdown-content { display: none; position: absolute; right: 0; top: 35px; background-color: #ffffff; border: 1px solid #cbd5e1; min-width: 130px; box-shadow: 0px 8px 16px rgba(0,0,0,0.15); border-radius: 8px; z-index: 10; text-align: left; overflow: hidden; }
+    .dropdown-content { display: none; position: absolute; right: 0; top: 38px; background-color: #ffffff; border: 1px solid #cbd5e1; min-width: 130px; box-shadow: 0px 8px 16px rgba(0,0,0,0.15); border-radius: 12px; z-index: 10; text-align: left; overflow: hidden; }
     .dropdown-content a { color: #0f172a; padding: 10px 14px; text-decoration: none; display: block; font-size: 13px; font-weight: bold; }
     .dropdown-content a:hover { background-color: #fee2e2; color: #dc2626; }
 
-    /* WHATSAPP BADGE ICON */
+    /* FUN COMMUNITY BADGE ICON WITH WHATSAPP GREEN */
     .wa-circle-icon {
-      width: 64px;
-      height: 64px;
+      width: 68px;
+      height: 68px;
       background: #ffffff;
       border-radius: 50%;
       display: flex;
       justify-content: center;
       align-items: center;
-      margin-bottom: 16px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      margin-bottom: 14px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
     }
     .wa-circle-icon svg {
       width: 38px;
@@ -165,7 +90,7 @@
     }
 
     .vip-header h1 {
-      font-size: 22px;
+      font-size: 26px;
       font-weight: 900;
       margin-bottom: 6px;
       letter-spacing: -0.3px;
@@ -184,12 +109,12 @@
       gap: 16px;
     }
 
-    /* LIGHT GREEN ACCOUNT BALANCE BOX */
+    /* LIGHT WHATSAPP GREEN ACCOUNT BALANCE BOX */
     .balance-card-box {
-      background: #f0fdf4;
-      border: 1px solid #bbf7d0;
-      border-radius: 16px;
-      padding: 16px;
+      background: #e7fce8;
+      border: 1px solid #b7f4be;
+      border-radius: 18px;
+      padding: 18px;
       display: flex;
       flex-direction: column;
       gap: 12px;
@@ -202,7 +127,7 @@
     }
     .balance-col-left span.label {
       font-size: 11px;
-      color: #475569;
+      color: #3b5a45;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -210,7 +135,7 @@
     }
     .balance-col-left h2 {
       font-size: 26px;
-      color: #008753;
+      color: #075E54;
       font-weight: 900;
       margin-top: 2px;
     }
@@ -220,7 +145,7 @@
     }
     .balance-col-right span.label {
       font-size: 11px;
-      color: #64748b;
+      color: #55705e;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -228,14 +153,14 @@
     }
     .balance-col-right h3 {
       font-size: 18px;
-      color: #0f172a;
+      color: #111b21;
       font-weight: 900;
       margin-top: 2px;
     }
 
     .balance-divider {
       height: 1px;
-      background: #dcfce7;
+      background: #c2f5cb;
       width: 100%;
     }
 
@@ -244,7 +169,7 @@
       justify-content: space-between;
       align-items: center;
       font-size: 13px;
-      color: #334155;
+      color: #2e4a37;
     }
     .commission-left {
       display: flex;
@@ -253,43 +178,40 @@
     }
     .commission-val {
       font-weight: 800;
-      color: #0f172a;
+      color: #111b21;
     }
 
     .commission-subtext {
       font-size: 12px;
-      color: #475569;
-      line-height: 1.4;
+      color: #375340;
+      line-height: 1.45;
       display: flex;
-      gap: 6px;
+      gap: 8px;
       align-items: flex-start;
     }
-    .commission-subtext svg {
-      width: 16px;
-      height: 16px;
-      fill: #16a34a;
+    .commission-subtext span.icon {
+      font-size: 16px;
       flex-shrink: 0;
-      margin-top: 1px;
     }
 
     /* ALWAYS VISIBLE UNLOCKED SHARE & COPY CARD */
     .share-box-card {
       background: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: 14px;
+      border: 1px solid #d0ebd5;
+      border-radius: 16px;
       padding: 16px;
       text-align: left;
     }
     .share-box-card label {
       font-size: 12px;
-      color: #15803d;
+      color: #075E54;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.5px;
       display: block;
       margin-bottom: 8px;
     }
-    .share-box-card textarea { width: 100%; height: 75px; background: #f8fafc; border: 1px solid #cbd5e1; color: #0f172a; border-radius: 8px; padding: 8px 10px; font-size: 12px; resize: none; font-family: inherit; margin-bottom: 8px; outline: none; }
+    .share-box-card textarea { width: 100%; height: 75px; background: #f4f7f6; border: 1px solid #b7f4be; color: #111b21; border-radius: 10px; padding: 10px; font-size: 12px; resize: none; font-family: inherit; margin-bottom: 10px; outline: none; }
     .share-actions { display: flex; gap: 8px; }
     
     .icon-btn-transparent {
@@ -297,7 +219,7 @@
       padding: 10px 12px;
       border-radius: 10px;
       background: transparent;
-      border: 1px solid #bbf7d0;
+      border: 1px solid #b7f4be;
       cursor: pointer;
       display: flex;
       justify-content: center;
@@ -305,59 +227,59 @@
       gap: 8px;
       font-size: 13px;
       font-weight: 800;
-      color: #15803d;
+      color: #075E54;
       transition: background 0.2s ease;
     }
-    .icon-btn-transparent:hover { background: #f0fdf4; }
+    .icon-btn-transparent:hover { background: #e7fce8; }
     .icon-btn-transparent svg {
       width: 18px;
       height: 18px;
       fill: none;
-      stroke: #15803d;
+      stroke: #075E54;
       stroke-width: 2.2;
       stroke-linecap: round;
       stroke-linejoin: round;
     }
 
-    /* MAIN CTA BUTTON */
+    /* MAIN CTA BUTTON - WHATSAPP ACCENT GREEN */
     .btn-main-green {
-      background: #009661;
+      background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
       color: #ffffff;
       border: none;
       padding: 16px 20px;
       font-size: 16px;
       font-weight: 900;
-      border-radius: 12px;
+      border-radius: 14px;
       cursor: pointer;
       width: 100%;
       display: flex;
       justify-content: center;
       align-items: center;
       gap: 10px;
-      box-shadow: 0 4px 15px rgba(0, 150, 97, 0.25);
-      transition: background 0.2s;
+      box-shadow: 0 4px 15px rgba(37, 211, 102, 0.35);
+      transition: opacity 0.2s;
     }
-    .btn-main-green:hover { background: #008052; }
-    .btn-main-green svg { width: 24px; height: 24px; fill: #ffffff; }
+    .btn-main-green:hover { opacity: 0.95; }
+    .btn-main-green svg { width: 22px; height: 22px; fill: #ffffff; }
 
     /* BUTTONS */
-    .btn { background: #009661; color: #ffffff; border: none; padding: 14px; font-size: 14px; font-weight: 800; border-radius: 10px; cursor: pointer; width: 100%; text-transform: uppercase; transition: 0.2s; }
-    .btn:hover { background: #008052; }
+    .btn { background: #075E54; color: #ffffff; border: none; padding: 14px; font-size: 14px; font-weight: 800; border-radius: 10px; cursor: pointer; width: 100%; text-transform: uppercase; transition: 0.2s; }
+    .btn:hover { background: #054c44; }
 
     /* NETWORK INVITES LIST */
     .invite-section { text-align: left; }
     .invite-section h4 { font-size: 12px; color: #64748b; margin-bottom: 10px; text-transform: uppercase; font-weight: 800; letter-spacing: 0.5px; display: flex; justify-content: space-between; align-items: center; }
     ul.invite-list { list-style: none; max-height: 200px; overflow-y: auto; }
     ul.invite-list li { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #f1f5f9; font-size: 13px; font-weight: 600; }
-    .badge { padding: 4px 8px; border-radius: 10px; font-size: 11px; font-weight: bold; }
+    .badge { padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: bold; }
     .paid { background: #dcfce7; color: #15803d; }
     .pending { background: #fef3c7; color: #b45309; }
 
     /* CARD COMPONENT */
     .card {
       background: #ffffff;
-      border-radius: 16px;
-      border: 1px solid #e2e8f0;
+      border-radius: 18px;
+      border: 1px solid #e0e8e5;
       padding: 16px;
       box-shadow: 0 2px 10px rgba(0,0,0,0.02);
     }
@@ -370,12 +292,12 @@
       width: calc(100% - 40px);
       max-width: 380px; 
       margin-top: 14px;
-      background: #009661; 
+      background: #075E54; 
       color: #ffffff; 
       font-size: 13px; 
       font-weight: 800; 
-      padding: 11px 16px; 
-      border-radius: 12px;
+      padding: 12px 18px; 
+      border-radius: 14px;
       transform: translateX(-50%) translateY(-150%); 
       transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
       z-index: 9999999; 
@@ -386,38 +308,38 @@
     }
     #customNotification.show { transform: translateX(-50%) translateY(0); }
     #customNotification.error { background: #dc2626; }
-    #customNotification.success { background: #009661; }
+    #customNotification.success { background: #075E54; }
 
     /* MODALS */
-    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); display: none; justify-content: center; align-items: center; padding: 20px; z-index: 3000; backdrop-filter: blur(2px); }
-    .modal { background: #ffffff; padding: 25px; border-radius: 16px; width: 100%; max-width: 380px; text-align: center; border: 1px solid #cbd5e1; box-shadow: 0 10px 30px rgba(0,0,0,0.15); max-height: 90vh; overflow-y: auto; }
-    .modal h3 { font-size: 18px; color: #0f172a; margin-bottom: 15px; font-weight: 800; }
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(17, 27, 33, 0.6); display: none; justify-content: center; align-items: center; padding: 20px; z-index: 3000; backdrop-filter: blur(3px); }
+    .modal { background: #ffffff; padding: 25px; border-radius: 20px; width: 100%; max-width: 380px; text-align: center; border: 1px solid #cbd5e1; box-shadow: 0 10px 30px rgba(0,0,0,0.15); max-height: 90vh; overflow-y: auto; }
+    .modal h3 { font-size: 18px; color: #111b21; margin-bottom: 15px; font-weight: 800; }
     .modal p { font-size: 13px; color: #64748b; margin-bottom: 15px; line-height: 1.4; }
-    .modal input { width: 100%; padding: 12px; margin-bottom: 12px; background: #f8fafc; border: 1px solid #cbd5e1; color: #0f172a; border-radius: 8px; font-size: 14px; outline: none; }
-    .modal input:focus { border-color: #009661; background: #ffffff; }
+    .modal input { width: 100%; padding: 12px; margin-bottom: 12px; background: #f4f7f6; border: 1px solid #cbd5e1; color: #111b21; border-radius: 10px; font-size: 14px; outline: none; }
+    .modal input:focus { border-color: #075E54; background: #ffffff; }
     .close-btn { background: #e2e8f0; color: #334155; margin-top: 8px; }
     .close-btn:hover { background: #cbd5e1; }
 
     /* PAYLINK IFRAME MODAL */
     .paylink-modal { max-width: 500px; padding: 15px; }
-    .iframe-wrapper { width: 100%; border-radius: 8px; overflow: hidden; background: #fff; }
+    .iframe-wrapper { width: 100%; border-radius: 12px; overflow: hidden; background: #fff; }
     iframe#palpluss-iframe { width: 100%; border: none; min-height: 560px; display: block; transition: height 0.2s ease; }
 
     /* RECEIPT CARD */
-    .receipt-card { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 15px; text-align: left; margin-bottom: 15px; }
-    .receipt-card h4 { color: #166534; font-size: 16px; margin-bottom: 10px; text-align: center; }
+    .receipt-card { background: #e7fce8; border: 1px solid #b7f4be; border-radius: 14px; padding: 15px; text-align: left; margin-bottom: 15px; }
+    .receipt-card h4 { color: #075E54; font-size: 16px; margin-bottom: 10px; text-align: center; }
     .receipt-row { display: flex; justify-content: space-between; font-size: 13px; padding: 6px 0; border-bottom: 1px dashed #cbd5e1; }
     .receipt-row span:first-child { color: #64748b; font-weight: 600; }
-    .receipt-row span:last-child { color: #0f172a; font-weight: 700; word-break: break-all; }
+    .receipt-row span:last-child { color: #111b21; font-weight: 700; word-break: break-all; }
 
     /* LOADING SCREEN */
-    .loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.7); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 4000; color: white; }
-    .spinner { width: 45px; height: 45px; border: 4px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: #009661; animation: spin 0.8s linear infinite; margin-bottom: 12px; }
+    .loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(17, 27, 33, 0.7); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 4000; color: white; }
+    .spinner { width: 45px; height: 45px; border: 4px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: #25D366; animation: spin 0.8s linear infinite; margin-bottom: 12px; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
     .tab-header { display: flex; border-bottom: 2px solid #e2e8f0; margin-bottom: 15px; }
     .tab-btn { flex: 1; padding: 10px; cursor: pointer; color: #64748b; font-weight: bold; font-size: 14px; background: none; border: none; }
-    .tab-btn.active { color: #009661; border-bottom: 2px solid #009661; }
+    .tab-btn.active { color: #075E54; border-bottom: 2px solid #075E54; }
 
     .hidden { display: none !important; }
   </style>
@@ -452,26 +374,6 @@
 </head>
 <body>
 
-  <!-- FULL SCREEN DESKTOP RESTRICTION WARNING OVERLAY -->
-  <div id="desktopWarningOverlay">
-    <div class="desktop-warning-box">
-      <div class="desktop-warning-icon">
-        <svg viewBox="0 0 24 24">
-          <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-          <line x1="8" y1="21" x2="16" y2="21"></line>
-          <line x1="12" y1="17" x2="12" y2="21"></line>
-          <line x1="4" y1="7" x2="20" y2="7"></line>
-        </svg>
-      </div>
-      <h2>Mobile Device Required</h2>
-      <p>This VIP Community portal is strictly optimized for smartphones. Desktop and browser access are disabled.</p>
-      <div class="device-badge-row">
-        <span class="device-badge">Desktop Blocked</span>
-        <span class="device-badge">Use Smartphone</span>
-      </div>
-    </div>
-  </div>
-
   <!-- NOTIFICATION & LOADING OVERLAYS -->
   <div id="customNotification">Notification message here</div>
   <div class="loading-overlay" id="loadingScreen">
@@ -488,24 +390,24 @@
       </div>
 
       <div id="signInForm">
-        <p>Enter your nickname and password to access your account.</p>
+        <p>Enter your nickname and password to jump right back into Vibe!</p>
         <input type="text" id="loginNickname" placeholder="Nickname" />
         <input type="password" id="loginPassword" placeholder="Password" />
         <button class="btn" onclick="completeLogin()">SIGN IN</button>
       </div>
 
       <div id="signUpStep1">
-        <p>Enter Inviter Code first to continue.</p>
+        <p>Enter Inviter Code first to join Vibe.</p>
         <input type="text" id="inviterCode" placeholder="Enter Inviter Code" />
         <button class="btn" onclick="verifyInviterCode()">VERIFY CODE</button>
       </div>
 
       <div id="signUpStep2" class="hidden">
-        <p style="color:#16a34a; font-weight:bold;">Inviter Code Verified!</p>
+        <p style="color:#075E54; font-weight:bold;">Inviter Code Verified! 🎉</p>
         <p>Choose your unique nickname and password.</p>
         <input type="text" id="signUpNickname" placeholder="Choose Nickname" />
         <input type="password" id="signUpPassword" placeholder="Choose Password" />
-        <button class="btn" onclick="completeSignUp()">REGISTER NOW</button>
+        <button class="btn" onclick="completeSignUp()">JOIN VIBE NOW</button>
       </div>
 
       <button class="btn close-btn" onclick="closeModal('authModal')">Cancel</button>
@@ -516,7 +418,7 @@
   <div class="modal-overlay" id="palplussPayModal">
     <div class="modal paylink-modal">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-        <h4 style="font-size: 15px; color: #0f172a;">Join VIP WhatsApp Community (KES 30)</h4>
+        <h4 style="font-size: 15px; color: #111b21;">Join Vibe WhatsApp Group (KES 30)</h4>
         <button onclick="closePalplussPayModal(true)" style="background: none; border: none; font-size: 18px; cursor: pointer; color: #64748b;">✕</button>
       </div>
       <div class="iframe-wrapper">
@@ -529,8 +431,8 @@
   <div class="modal-overlay" id="receiptModal">
     <div class="modal">
       <div class="receipt-card">
-        <h4>🎉 Payment Confirmed!</h4>
-        <p style="text-align: center; font-size: 12px; margin-bottom: 12px; color: #15803d;">Your account is active. Click below to join the VIP group.</p>
+        <h4>🎉 You're Officially In!</h4>
+        <p style="text-align: center; font-size: 12px; margin-bottom: 12px; color: #075E54;">Your account is live! Tap below to join our WhatsApp group.</p>
         <div class="receipt-row">
           <span>Ref / TX ID:</span>
           <span id="rcptTxId">---</span>
@@ -544,8 +446,8 @@
           <span id="rcptPhone">---</span>
         </div>
       </div>
-      <button class="btn btn-main-green" onclick="launchWhatsAppGroup()" style="display: flex; text-decoration: none; margin-bottom: 10px; text-align: center; justify-content: center;">JOIN VIP GROUP NOW</button>
-      <button class="btn close-btn" onclick="closeModal('receiptModal')">CLOSE & START EARNING</button>
+      <button class="btn btn-main-green" onclick="launchWhatsAppGroup()" style="display: flex; text-decoration: none; margin-bottom: 10px; text-align: center; justify-content: center;">JOIN WHATSAPP GROUP NOW 💬</button>
+      <button class="btn close-btn" onclick="closeModal('receiptModal')">CLOSE & START SHARING</button>
     </div>
   </div>
 
@@ -555,7 +457,7 @@
     <!-- MASTER CARD WRAPPER -->
     <div class="master-card">
 
-      <!-- GREEN VIP HEADER -->
+      <!-- VIBRANT WHATSAPP HEADER -->
       <div class="vip-header">
         <div class="header-top-nav">
           <div id="loginBtnNav">
@@ -578,8 +480,8 @@
           <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
         </div>
 
-        <h1>VIP WhatsApp Community</h1>
-        <p>Join for KES 30 & Earn KES 10 per Referral!</p>
+        <h1>Vibe</h1>
+        <p>A fun, Friendly & open WhatsApp group! 🎈</p>
       </div>
 
       <!-- CARD BODY INNER CONTENT -->
@@ -589,7 +491,7 @@
         <div class="balance-card-box">
           <div class="balance-top-row">
             <div class="balance-col-left">
-              <span class="label">ACCOUNT BALANCE</span>
+              <span class="label">YOUR REWARDS</span>
               <h2 id="totalEarned">KES 0.00</h2>
             </div>
             <div class="balance-col-right">
@@ -609,14 +511,14 @@
           </div>
 
           <div class="commission-subtext">
-            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-            <span>Earn <strong>KES 10 commission</strong> automatically for every friend who joins using your code!</span>
+            <span class="icon">🎁</span>
+            <span>Get <strong>KES 10 instantly</strong> every time a new friend joins Vibe with your invite code!</span>
           </div>
         </div>
 
         <!-- ALWAYS VISIBLE UNLOCKED SHARE & COPY CARD -->
         <div id="shareBoxSection" class="share-box-card hidden">
-          <label>📢 SHARE & EARN CODE</label>
+          <label>📢 YOUR FRIENDLY INVITE CARD</label>
           <textarea id="userInviteMessage" readonly></textarea>
           <div class="share-actions">
             <button class="icon-btn-transparent" onclick="copyInviteMessage()">
@@ -642,14 +544,13 @@
         <!-- MAIN ACTION BUTTON -->
         <div id="actionArea">
           <button class="btn-main-green" id="primaryCtaBtn" onclick="handlePrimaryAction()">
-            <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-            <span id="primaryCtaText">Join Group Now</span>
+            <span id="primaryCtaText">Join Vibe Now</span>
           </button>
         </div>
 
         <!-- NETWORK INVITES LIST CARD -->
         <div class="card invite-section" id="invitesSectionAnchor">
-          <h4>YOUR INVITES <span id="networkCountBadge" style="font-size: 11px; background: #e2e8f0; padding: 2px 8px; border-radius: 12px; color: #475569; font-weight: 800;">0 / 0</span></h4>
+          <h4>YOUR FRIENDS <span id="networkCountBadge" style="font-size: 11px; background: #e2e8f0; padding: 2px 8px; border-radius: 12px; color: #475569; font-weight: 800;">0 / 0</span></h4>
           <ul class="invite-list" id="inviteList">
             <!-- Invites rendered dynamically -->
           </ul>
@@ -662,7 +563,7 @@
   </main>
 
   <script>
-    const PAYLINK_ID = "7f2a7c04-69de-4823-81aa-6a193f99cb79";
+    const PAYLINK_ID = "e2251db9-ec04-43be-91de-9c1f6c17ee2d";
     const PAYLINK_URL = `https://link.palpluss.com/${PAYLINK_ID}?embed=1`;
     const WHATSAPP_GROUP_CODE = "JGns880DJGQDgUogLM3qe7";
 
@@ -671,20 +572,6 @@
     let registeredRefererOwnerUid = "";
     let isRegistering = false;
     let isProcessingSuccess = false;
-
-    // IMMEDIATE DESKTOP DETECTION CHECK ON SCRIPT LOAD
-    (function checkDeviceType() {
-      const isAndroid = /Android/i.test(navigator.userAgent);
-      const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-      const isDesktop = !isAndroid && !isIOS;
-
-      if (isDesktop) {
-        document.addEventListener("DOMContentLoaded", function () {
-          const overlay = document.getElementById('desktopWarningOverlay');
-          if (overlay) overlay.style.display = 'flex';
-        });
-      }
-    })();
 
     function showNotification(message, type = 'success') {
       const note = document.getElementById('customNotification');
@@ -703,16 +590,9 @@
     }
 
     window.addEventListener('DOMContentLoaded', async () => {
-      const isAndroid = /Android/i.test(navigator.userAgent);
-      const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-      if (!isAndroid && !isIOS) {
-        document.getElementById('desktopWarningOverlay').style.display = 'flex';
-        return;
-      }
-
       setupPalplussPostMessageListener();
       
-      const savedUid = localStorage.getItem('share254_app_uid');
+      const savedUid = localStorage.getItem('vibe_app_uid');
       if (savedUid) {
         showLoading("Restoring session...");
         try {
@@ -728,7 +608,7 @@
             };
             await fetchAndRenderUserData();
           } else {
-            localStorage.removeItem('share254_app_uid');
+            localStorage.removeItem('vibe_app_uid');
             updateUI({}, "0 / 0");
           }
         } catch (e) {
@@ -754,7 +634,7 @@
     function closePalplussPayModal(cancelledByUser = false) {
       closeModal('palplussPayModal');
       if (cancelledByUser) {
-        showNotification('Payment cancelled. Purchase required to unlock your link.', 'error');
+        showNotification('Payment cancelled. Entry fee required to unlock your link.', 'error');
       }
     }
 
@@ -790,38 +670,10 @@
     }
 
     function launchWhatsAppGroup() {
-      const isAndroid = /Android/i.test(navigator.userAgent);
-      const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-      const isDesktop = !isAndroid && !isIOS;
-
-      if (isDesktop) {
-        document.getElementById('desktopWarningOverlay').style.display = 'flex';
-        return;
-      }
-
-      const whatsappAppUri = `whatsapp://chat?code=${WHATSAPP_GROUP_CODE}`;
-      const startTime = Date.now();
-      window.location.href = whatsappAppUri;
-
-      setTimeout(function () {
-        if (Date.now() - startTime < 1500) {
-          if (isAndroid) {
-            window.location.href = "https://play.google.com/store/apps/details?id=com.whatsapp";
-          } else if (isIOS) {
-            window.location.href = "https://apps.apple.com/app/whatsapp-messenger/id310633997";
-          }
-        }
-      }, 1000);
+      window.open(`https://chat.whatsapp.com/${WHATSAPP_GROUP_CODE}`, '_blank');
     }
 
     function handlePrimaryAction() {
-      const isAndroid = /Android/i.test(navigator.userAgent);
-      const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-      if (!isAndroid && !isIOS) {
-        document.getElementById('desktopWarningOverlay').style.display = 'flex';
-        return;
-      }
-
       if (!currentUser) {
         openAuthModal('signin');
       } else if (!currentUser.isPaid) {
@@ -917,7 +769,7 @@
       document.getElementById('rcptPhone').innerText = paymentData.phone || 'N/A';
 
       await fetchAndRenderUserData();
-      showNotification('Payment verified! VIP group access unlocked.', 'success');
+      showNotification('Payment verified! WhatsApp group unlocked.', 'success');
       openModal('receiptModal');
     }
 
@@ -1001,7 +853,7 @@
           }
         }
 
-        const myUniqueCode = `SHARE_${nickname.toUpperCase()}`;
+        const myUniqueCode = `VIBE_${nickname.toUpperCase()}`;
         const codeCheckSnap = await window.dbGet(window.dbChild(window.dbRef(db), `codes/${myUniqueCode}`));
         if (codeCheckSnap.exists()) {
           showNotification('Nickname is already taken.', 'error');
@@ -1037,7 +889,7 @@
         });
 
         closeModal('authModal');
-        showNotification('Registration successful! Welcome.', 'success');
+        showNotification('Registration successful! Welcome to Vibe.', 'success');
 
         currentUser = {
           uid: newUserId,
@@ -1047,7 +899,7 @@
           invitedBy: registeredRefererOwnerUid
         };
 
-        localStorage.setItem('share254_app_uid', newUserId);
+        localStorage.setItem('vibe_app_uid', newUserId);
         await fetchAndRenderUserData();
       } catch (error) {
         console.error(error);
@@ -1101,7 +953,7 @@
           invitedBy: foundUser.invitedBy || null
         };
 
-        localStorage.setItem('share254_app_uid', foundUid);
+        localStorage.setItem('vibe_app_uid', foundUid);
         closeModal('authModal');
         showNotification('Signed in successfully!', 'success');
         await fetchAndRenderUserData();
@@ -1126,7 +978,7 @@
         currentUser.invitedBy = userData.invitedBy || null;
 
         const codesSnap = await window.dbGet(window.dbRef(window.db, 'codes'));
-        let myCode = `SHARE_${currentUser.nickname.toUpperCase()}`; 
+        let myCode = `VIBE_${currentUser.nickname.toUpperCase()}`; 
         codesSnap.forEach((codeSnap) => {
           if (codeSnap.val().ownerUid === currentUser.uid) {
             myCode = codeSnap.key;
@@ -1165,7 +1017,7 @@
         shareBoxSection.classList.add('hidden');
         totalEarned.innerText = "KES 0.00";
         commissionEarnedText.innerText = "KES 0.00";
-        primaryCtaText.innerText = "Join Group Now";
+        primaryCtaText.innerText = "Join Vibe Now";
       } 
       else if (currentUser && !currentUser.isPaid) {
         navNickname.innerText = `@${currentUser.nickname}`;
@@ -1174,7 +1026,7 @@
         shareBoxSection.classList.add('hidden');
         totalEarned.innerText = `KES ${currentUser.balance.toFixed(2)}`;
         commissionEarnedText.innerText = `KES ${currentUser.balance.toFixed(2)}`;
-        primaryCtaText.innerText = "PAY KES 30 TO JOIN";
+        primaryCtaText.innerText = "Join (30 Ksh)";
       } 
       else if (currentUser && currentUser.isPaid) {
         navNickname.innerText = `@${currentUser.nickname}`;
@@ -1182,10 +1034,10 @@
         userProfileNav.classList.remove('hidden');
         shareBoxSection.classList.remove('hidden'); 
 
-        inviteMessageInput.value = `Join our VIP WhatsApp Community now!\n\nLink: https://share-254.github.io/grow/\nInvite code: ${currentUser.myCode}`;
+        inviteMessageInput.value = `Come join the Vibe WhatsApp group!\n\nLink: https://share-254.github.io/grow/\nMy Invite Code: ${currentUser.myCode}`;
         totalEarned.innerText = `KES ${currentUser.balance.toFixed(2)}`;
         commissionEarnedText.innerText = `KES ${currentUser.balance.toFixed(2)}`;
-        primaryCtaText.innerText = "OPEN VIP GROUP 💬";
+        primaryCtaText.innerText = "OPEN WHATSAPP GROUP 💬";
       }
 
       if (customBadgeText) {
@@ -1196,7 +1048,7 @@
 
       inviteList.innerHTML = "";
       if (inviteKeys.length === 0) {
-        inviteList.innerHTML = `<li><span style="color:#94a3b8;">No invites yet</span></li>`;
+        inviteList.innerHTML = `<li><span style="color:#94a3b8;">No friends joined yet</span></li>`;
       } else {
         inviteKeys.forEach((key) => {
           const inv = invitesObj[key];
@@ -1212,7 +1064,7 @@
       showLoading("Signing out...");
       setTimeout(() => {
         currentUser = null;
-        localStorage.removeItem('share254_app_uid');
+        localStorage.removeItem('vibe_app_uid');
         document.getElementById('dropdownMenu').style.display = 'none';
         updateUI({}, "0 / 0");
         hideLoading();
@@ -1239,7 +1091,7 @@
       if (navigator.share) {
         try {
           await navigator.share({
-            title: 'VIP WhatsApp Community Invitation',
+            title: 'Vibe WhatsApp Group Invitation',
             text: messageText
           });
           showNotification('Shared successfully!', 'success');
