@@ -414,14 +414,13 @@
     </div>
   </div>
 
-  <!-- PAYMENT DETAILS PROMPT MODAL -->
+  <!-- SIMPLE PHONE PROMPT MODAL -->
   <div class="modal-overlay" id="phonePromptModal">
     <div class="modal">
-      <h3>💳 Confirm Payment Details</h3>
-      <p>Confirm your name and phone number for the KES 30 checkout.</p>
-      <input type="text" id="userCheckoutName" placeholder="Your Full Name" />
-      <input type="tel" id="userCheckoutPhone" placeholder="M-Pesa Phone (e.g. 0712345678)" />
-      <button class="btn btn-main-green" onclick="proceedToPalplussWidget()" style="margin-bottom: 8px;">CONTINUE TO PAYMENT</button>
+      <h3>Enter M-Pesa Number</h3>
+      <p>Enter your phone number to complete payment.</p>
+      <input type="tel" id="userCheckoutPhone" placeholder="Phone number (e.g. 0712345678)" />
+      <button class="btn btn-main-green" onclick="proceedToPalplussWidget()" style="margin-bottom: 8px;">PAY KES 30</button>
       <button class="btn close-btn" onclick="closeModal('phonePromptModal')">Cancel</button>
     </div>
   </div>
@@ -689,8 +688,6 @@
       if (!currentUser) {
         openAuthModal('signin');
       } else if (!currentUser.isPaid) {
-        // Prefill name using logged-in user's nickname if available
-        document.getElementById('userCheckoutName').value = currentUser.nickname || "";
         document.getElementById('userCheckoutPhone').value = "";
         openModal('phonePromptModal');
       } else {
@@ -699,22 +696,18 @@
     }
 
     function proceedToPalplussWidget() {
-      const nameInput = document.getElementById('userCheckoutName').value.trim();
       const phoneInput = document.getElementById('userCheckoutPhone').value.trim();
 
-      if (!nameInput) {
-        showNotification('Please enter your name!', 'error');
-        return;
-      }
       if (!phoneInput || phoneInput.length < 9) {
-        showNotification('Please enter a valid M-Pesa phone number!', 'error');
+        showNotification('Please enter a valid phone number!', 'error');
         return;
       }
 
       closeModal('phonePromptModal');
 
-      // Build target URL with prefilled and locked name, phone, and amount (30 KES)
-      let finalPayUrl = `${BASE_PAYLINK_URL}&name=${encodeURIComponent(nameInput)}&phone=${encodeURIComponent(phoneInput)}&amount=30&readonly=1&lock_name=1&lock_phone=1&lock_amount=1`;
+      // Use user's nickname for name field, prefill phone and amount, lock all fields
+      const userNickname = (currentUser && currentUser.nickname) ? currentUser.nickname : "Member";
+      let finalPayUrl = `${BASE_PAYLINK_URL}&name=${encodeURIComponent(userNickname)}&phone=${encodeURIComponent(phoneInput)}&amount=30&readonly=1&lock_name=1&lock_phone=1&lock_amount=1`;
 
       const iframe = document.getElementById('palpluss-iframe');
       iframe.src = finalPayUrl;
